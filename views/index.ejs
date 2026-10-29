@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- ============ RECEPTIONIST LOGIN / REGISTER ============ -->
+<div id="login-overlay" class="overlay auth-overlay" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+    <div class="auth-shell">
+        <aside class="auth-brand">
+            <div class="auth-brand-head">
+                <img class="auth-brand-logo" src="/images/logo.jpg" alt="<%= companyName %> Massage &amp; Spa logo">
+            </div>
+
+            <div class="auth-brand-copy">
+                <span class="auth-eyebrow">Staff Portal</span>
+                <h1>Reception Desk</h1>
+                <p>
+                    Manage daily sales, keep every shift organized, and close your
+                    reports with confidence.
+                </p>
+            </div>
+
+            <ul class="auth-features">
+                <li>
+                    <span class="auth-feature-icon" aria-hidden="true">&#10003;</span>
+                    <span>
+                        <strong>Daily sales</strong>
+                        <small>Record walk-ins and services as they happen.</small>
+                    </span>
+                </li>
+                <li>
+                    <span class="auth-feature-icon" aria-hidden="true">&#10003;</span>
+                    <span>
+                        <strong>Shift tracking</strong>
+                        <small>A clear handover between morning and night.</small>
+                    </span>
+                </li>
+                <li>
+                    <span class="auth-feature-icon" aria-hidden="true">&#10003;</span>
+                    <span>
+                        <strong>Weekly &amp; monthly reports</strong>
+                        <small>Archived totals ready whenever you need them.</small>
+                    </span>
+                </li>
+            </ul>
+
+            <div class="auth-brand-foot">
+                <span class="auth-status-dot" aria-hidden="true"></span>
+                Authorized staff access
+            </div>
+        </aside>
+
+        <section class="auth-panel">
+            <div class="auth-panel-inner">
+                <div class="auth-panel-head">
+                    <span class="auth-kicker"><%= companyName %> Massage &amp; Spa</span>
+                    <h2 id="auth-title">Welcome back</h2>
+                    <p id="auth-subtitle">Select your receptionist profile to begin your shift.</p>
+                </div>
+
+                <div class="auth-toggle" role="tablist" aria-label="Receptionist access">
+                    <button id="tab-login" class="tab-btn active" type="button" role="tab"
+                            aria-selected="true" onclick="showTab('login')">Sign In</button>
+                    <button id="tab-register" class="tab-btn" type="button" role="tab"
+                            aria-selected="false" onclick="showTab('register')">Register</button>
+                </div>
+
+                <!-- LOGIN: select an existing receptionist profile -->
+                <div id="login-form" class="auth-form">
+                    <div class="auth-field">
+                        <label class="field-label" for="login-receptionist">Receptionist profile</label>
+                        <div class="auth-control">
+                            <svg class="auth-control-icon" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
+                                 stroke-linejoin="round" aria-hidden="true">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <select id="login-receptionist">
+                                <option value="">Select your profile</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="btn-add auth-submit" type="button" onclick="startShift()">
+                        <span>Start Shift</span>
+                        <svg class="auth-submit-icon" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                             stroke-linejoin="round" aria-hidden="true">
+                            <path d="M5 12h14"></path>
+                            <path d="m13 6 6 6-6 6"></path>
+                        </svg>
+                    </button>
+                    <p id="login-msg" class="msg" role="status" aria-live="polite"></p>
+
+                    <p class="auth-switch">
+                        New receptionist?
+                        <button type="button" class="auth-link" onclick="showTab('register')">Create a profile</button>
+                    </p>
+                </div>
+
+                <!-- REGISTER: add a new receptionist -->
+                <div id="register-form" class="auth-form hidden">
+                    <div class="auth-field">
+                        <label class="field-label" for="reg-name">Full name</label>
+                        <div class="auth-control">
+                            <svg class="auth-control-icon" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
+                                 stroke-linejoin="round" aria-hidden="true">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <input type="text" id="reg-name" placeholder="e.g. Maria Santos" autocomplete="name">
+                        </div>
+                    </div>
+
+                    <div class="auth-field">
+                        <label class="field-label" for="reg-shift">Assigned shift</label>
+                        <div class="auth-control">
+                            <svg class="auth-control-icon" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
+                                 stroke-linejoin="round" aria-hidden="true">
+                                <circle cx="12" cy="12" r="9"></circle>
+                                <path d="M12 7v5l3 2"></path>
+                            </svg>
+                            <select id="reg-shift">
+                                <option value="morning">Morning Shift</option>
+                                <option value="night">Night Shift</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="btn-add auth-submit" type="button" onclick="registerReceptionist()">
+                        <span>Create Profile</span>
+                        <svg class="auth-submit-icon" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                             stroke-linejoin="round" aria-hidden="true">
+                            <path d="M5 12h14"></path>
+                            <path d="m13 6 6 6-6 6"></path>
+                        </svg>
+                    </button>
+                    <p id="reg-msg" class="msg" role="status" aria-live="polite"></p>
+
+                    <p class="auth-switch">
+                        Already registered?
+                        <button type="button" class="auth-link" onclick="showTab('login')">Sign in instead</button>
+                    </p>
+                </div>
+
+                <p class="auth-security">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="4" y="10" width="16" height="10" rx="2"></rect>
+                        <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+                    </svg>
+                    Staff access is limited to registered receptionists.
+                </p>
+            </div>
+        </section>
+    </div>
+</div>
+
+<!-- ============ MAIN SALES APP ============ -->
+<div class="container hidden" id="app">
+    <div class="header-bar">
+        <div class="title-section">
+            <img class="brand-logo" src="/images/logo.jpg" alt="SPAradise Massage &amp; Spa logo">
+            <div class="brand-text">
+                <h1><%= title %></h1>
+                <p><%= companyName %></p>
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <div class="date-badge">
+                <label for="report-date">Date:</label>
+                <input type="date" id="report-date" value="<%= defaultDate %>" onchange="onDateChange()">
+            </div>
+
+            <!-- Receptionist profile (upper-right) -->
+            <div class="profile-menu" id="profile-menu">
+                <button type="button" class="profile-btn" id="profile-btn"
+                        onclick="toggleProfileMenu()" aria-haspopup="menu" aria-expanded="false">
+                    <span class="profile-avatar" id="profile-avatar">--</span>
+                    <span class="profile-meta">
+                        <span class="profile-name" id="receptionist-name">--</span>
+                        <span id="shift-badge" class="shift-badge">--</span>
+                    </span>
+                    <span class="profile-caret" aria-hidden="true">&#9662;</span>
+                </button>
+
+                <div class="profile-dropdown hidden" id="profile-dropdown" role="menu">
+                    <div class="profile-dropdown-head">
+                        <span class="profile-avatar profile-avatar-lg" id="profile-avatar-lg">--</span>
+                        <div class="profile-dropdown-id">
+                            <strong id="profile-name-lg">--</strong>
+                            <span id="profile-shift-lg">--</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-stats">
+                        <div><span>Member since</span><strong id="profile-member-since">&mdash;</strong></div>
+                        <div><span>Shifts logged</span><strong id="profile-shift-count">&mdash;</strong></div>
+                        <div><span>Records logged</span><strong id="profile-sales-count">&mdash;</strong></div>
+                    </div>
+
+                    <div class="profile-actions">
+                        <button type="button" class="profile-action" onclick="logout()">Log out</button>
+                        <button type="button" class="profile-action danger" onclick="openDeleteAccount()">
+                            Delete my account
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Closed-day banner -->
+    <div id="closed-banner" class="closed-banner hidden">
+        This day is <strong>closed &amp; archived</strong> to Weekly &amp; Monthly Sales Data. It is now read-only.
+    </div>
+
+    <!-- Summary KPI Cards -->
+    <div class="summary-cards">
+        <div class="card">
+            <div class="card-title">Total Sales</div>
+            <div class="card-value" id="total-sales-card">&#8369;0.00</div>
+        </div>
+        <div class="card epay">
+            <div class="card-title">E-Pay Payments</div>
+            <div class="card-value" id="epay-total-card">&#8369;0.00</div>
+        </div>
+        <div class="card cash">
+            <div class="card-title">Cash Payments</div>
+            <div class="card-value" id="cash-total-card">&#8369;0.00</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Total Commission</div>
+            <div class="card-value" id="total-comm-card">&#8369;0.00</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Net Revenue</div>
+            <div class="card-value" id="net-revenue-card">&#8369;0.00</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Total Sessions</div>
+            <div class="card-value" id="total-count-card">0</div>
+        </div>
+    </div>
+
+    <!-- Data Table -->
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Service Name</th>
+                    <th>Room No.</th>
+                    <th>Time / Duration</th>
+                    <th>Total (&#8369;)</th>
+                    <th>Payment</th>
+                    <th>Comm (&#8369;)</th>
+                    <th>Logged By</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="sales-tbody">
+                <!-- Dynamically loaded from database -->
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" style="text-align: right;"><strong>TOTAL:</strong></td>
+                    <td id="foot-total-sales">&#8369;0.00</td>
+                    <td><span class="foot-note">E-Pay</span> <span id="foot-epay-total">&#8369;0.00</span></td>
+                    <td id="foot-total-comm">&#8369;0.00</td>
+                    <td colspan="2"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <!-- Input Form -->
+    <div class="add-form-container" id="add-form-container">
+        <h3 id="form-title">+ Add New Sales Record</h3>
+        <div class="form-grid">
+            <input type="text" id="new-name" placeholder="Staff Name" required>
+            <input type="text" id="new-service" placeholder="Service Name">
+            <select id="new-room">
+                <option value="">Room No.</option>
+                <option value="1">Room 1</option>
+                <option value="2">Room 2</option>
+                <option value="3">Room 3</option>
+                <option value="4">Room 4</option>
+                <option value="5">Room 5</option>
+            </select>
+            <select id="new-duration" aria-label="Session duration">
+                <option value="1">1 hour</option>
+                <option value="1.5">1.5 hours</option>
+                <option value="2">2 hours</option>
+            </select>
+            <input type="number" id="new-total" placeholder="Total (&#8369;)">
+            <select id="new-payment-method" aria-label="Payment method">
+                <option value="cash">Cash</option>
+                <option value="epay">E-Pay (online)</option>
+            </select>
+            <input type="number" id="new-comm" placeholder="Comm (&#8369;)">
+        </div>
+        <div class="form-actions">
+            <button class="btn-add" id="add-record-btn" onclick="addEntry()">Add Record</button>
+            <button class="btn-secondary hidden" id="cancel-edit-btn" type="button"
+                    onclick="cancelEdit()">Cancel Edit</button>
+        </div>
+    </div>
+
+    <div class="action-bar">
+        <button class="btn-archive" id="close-day-btn" onclick="closeDay()">Save Day to Weekly &amp; Monthly</button>
+        <button class="btn-secondary" onclick="exportCSV()">Export CSV</button>
+        <button class="btn-secondary" onclick="window.print()">Print Report</button>
+        <a class="btn-secondary btn-link" href="/weekly">Weekly Sales Data</a>
+        <a class="btn-secondary btn-link" href="/monthly">Monthly Sales Data</a>
+    </div>
+</div>
+
+<!-- ============ DELETE ACCOUNT CONFIRMATION ============ -->
+<div id="delete-account-overlay" class="overlay hidden">
+    <div class="overlay-card delete-card">
+        <h2>Delete My Account</h2>
+        <p class="overlay-sub">This permanently removes your receptionist profile.</p>
+
+        <div class="delete-warning">
+            <strong>This cannot be undone.</strong>
+            <p>
+                Your name will disappear from the login list and your current shift
+                will end. Sales records you already logged are kept for the weekly
+                and monthly reports. If you are on the night shift, the day will
+                stay open for the next receptionist.
+            </p>
+        </div>
+
+        <label class="field-label" for="delete-confirm-name">Type your full name to confirm</label>
+        <input type="text" id="delete-confirm-name" placeholder="Type your name"
+               autocomplete="off" oninput="updateDeleteState()">
+        <p id="delete-account-msg" class="msg"></p>
+
+        <div class="delete-actions">
+            <button type="button" class="btn-secondary" onclick="closeDeleteAccount()">Cancel</button>
+            <button type="button" class="btn-danger-solid" id="delete-account-btn"
+                    onclick="deleteMyAccount()" disabled>Delete My Account</button>
+        </div>
+    </div>
+</div>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

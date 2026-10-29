@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="header-bar">
+        <div class="title-section">
+            <img class="brand-logo" src="/images/logo.jpg" alt="SPAradise Massage &amp; Spa logo">
+            <div class="brand-text">
+                <h1><%= title %></h1>
+                <p><%= companyName %></p>
+            </div>
+        </div>
+
+        <div class="date-badge">
+            <label for="week-picker">Week:</label>
+            <input type="week" id="week-picker" value="<%= defaultWeek %>" onchange="loadWeekly()">
+        </div>
+    </div>
+
+    <p class="section-title" id="week-range">Loading&hellip;</p>
+
+    <!-- Summary KPI Cards -->
+    <div class="summary-cards">
+        <div class="card">
+            <div class="card-title">Total Sales</div>
+            <div class="card-value" id="w-total-sales">&#8369;0.00</div>
+        </div>
+        <div class="card epay">
+            <div class="card-title">E-Pay Payments</div>
+            <div class="card-value" id="w-epay-total">&#8369;0.00</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Total Commission</div>
+            <div class="card-value" id="w-total-comm">&#8369;0.00</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Net Revenue</div>
+            <div class="card-value" id="w-net-revenue">&#8369;0.00</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Total Sessions</div>
+            <div class="card-value" id="w-total-count">0</div>
+        </div>
+    </div>
+
+    <!-- Per-day breakdown -->
+    <h3 class="section-title">Daily Breakdown (Archived)</h3>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Sessions</th>
+                    <th>Total Sales (&#8369;)</th>
+                    <th>E-Pay (&#8369;)</th>
+                    <th>Total Comm (&#8369;)</th>
+                    <th>Net (&#8369;)</th>
+                </tr>
+            </thead>
+            <tbody id="weekly-tbody">
+                <!-- Dynamically loaded -->
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td style="text-align: right;"><strong>WEEK TOTAL:</strong></td>
+                    <td id="w-foot-count">0</td>
+                    <td id="w-foot-sales">&#8369;0.00</td>
+                    <td id="w-foot-epay">&#8369;0.00</td>
+                    <td id="w-foot-comm">&#8369;0.00</td>
+                    <td id="w-foot-net">&#8369;0.00</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="action-bar">
+        <button class="btn-secondary" onclick="exportWeeklyCSV()">Export CSV</button>
+        <button class="btn-secondary" onclick="window.print()">Print</button>
+        <a class="btn-secondary btn-link" href="/monthly">&rarr; Monthly Sales Data</a>
+        <a class="btn-secondary btn-link" href="/">&larr; Back to Daily Sales</a>
+    </div>
+</div>
+
+<script src="/js/weekly.js"></script>
+</body>
+</html>
